@@ -63,10 +63,10 @@ static int super_read() {
   int ercode;
   union sb_block sb_u;
 
-  ercode=disk_ops.read(SB_OFFSET,sb_u.data/*** TODO ***/);
+  ercode=disk_ops.read(SB_OFFSET,sb_u.data);
   if (ercode < 0) return ercode;
 
-  memcpy(&ffs_IMsb.sb, &sb_u.sb, DISK_BLOCK_SIZE);/*** TODO ***/ /*** TODO ***/
+  memcpy(&ffs_IMsb.sb, &sb_u.sb, DISK_BLOCK_SIZE);
 
   return 0;
 }
@@ -83,7 +83,7 @@ static int super_write() {
   union sb_block sb_u;
 
   memset(sb_u.data, 0, DISK_BLOCK_SIZE);        // clean...
-  memcpy(&sb_u.sb, &ffs_IMsb.sb, DISK_BLOCK_SIZE);/*** TODO ***/ /*** TODO ***/
+  memcpy(&sb_u.sb, &ffs_IMsb.sb, DISK_BLOCK_SIZE);
 
   ercode=disk_ops.write(SB_OFFSET,sb_u.data);
   if (ercode < 0) return ercode;
@@ -106,12 +106,12 @@ static int super_mount( char *diskname, int debug ) {
   ercode= disk_ops.open(diskname, 0);
   if (ercode < 0) return ercode;
 
-  /*** TODO read the superblock ***/
+  /***  read the superblock ***/
   ercode=super_read();
   if (ercode < 0) return ercode;
 
   ffs_IMsb.sb.mounted= 1;
-  /*** TODO write the superblock ***/
+  /***  write the superblock ***/
   ercode=super_write();
   if (ercode < 0) return ercode;
 
@@ -134,7 +134,7 @@ static int super_umount() {
   int ercode;
 
   ffs_IMsb.sb.mounted= 0;
-  /*** TODO write the superblock ***/
+  /***  write the superblock ***/
   ercode=super_write();
   if (ercode < 0) return ercode;
 
@@ -151,27 +151,27 @@ static int super_umount() {
     returns: unsigned int value or address of region			***/
 
 unsigned int super_getStartRotdir() {
-  return ffs_IMsb.sb.startRotdir/*** TODO ***/;
+  return ffs_IMsb.sb.startRotdir;
 }
 
 unsigned int super_getStartDtBmap() {
-  return ffs_IMsb.sb.startDtBmap/*** TODO ***/;
+  return ffs_IMsb.sb.startDtBmap;
 }
 
 unsigned int super_getStartDtArea() {
-  return ffs_IMsb.sb.startDtArea/*** TODO ***/;
+  return ffs_IMsb.sb.startDtArea;
 }
 
 unsigned int super_getNinodeblocks() {
-  return ffs_IMsb.sb.ninodeblocks/*** TODO ***/;
+  return ffs_IMsb.sb.ninodeblocks;
 }
 
 unsigned int super_getTotalInodes() {
-  return ffs_IMsb.sb.ninodes/*** TODO ***/;
+  return ffs_IMsb.sb.ninodes;
 }
 
 unsigned int super_getNdatablocks() {
-  return ffs_IMsb.sb.ndatablocks;/*** TODO ***/;
+  return ffs_IMsb.sb.ndatablocks;
 }
 
 
@@ -179,17 +179,17 @@ unsigned int super_getNdatablocks() {
 
 void super_debug() {
   printf("Superblock:\n");
-  printf("  fsmagic          = 0x%x\n", ffs_IMsb.sb.fsmagic);/*** TODO ***/
-  printf("  nblocks          = %u\n", ffs_IMsb.sb.nblocks);//*** TODO ***/);
-  printf("  nbmapblocksinodes= %u\n", ffs_IMsb.sb.nbmapblocksinodes);/*** TODO ***/
-  printf("  ninodeblocks     = %u\n", ffs_IMsb.sb.ninodeblocks);/*** TODO ***/
-  printf("  ninodes          = %u\n", ffs_IMsb.sb.ninodes);/*** TODO ***/
-  printf("  nbmapblocksdata  = %u\n", ffs_IMsb.sb.nbmapblocksdata);/*** TODO ***/
-  printf("  ndatablocks      = %u\n", ffs_IMsb.sb.ndatablocks);/*** TODO ***/
-  printf("  startInArea      = %u\n", ffs_IMsb.sb.startInArea);//*** TODO ***/)
-  printf("  startRotdir      = %u\n", ffs_IMsb.sb.startRotdir);/*** TODO ***/
-  printf("  startDtBmap      = %u\n", ffs_IMsb.sb.startDtBmap);/*** TODO ***/
-  printf("  startDtArea      = %u\n", ffs_IMsb.sb.startDtArea);/*** TODO ***/
+  printf("  fsmagic          = 0x%x\n", ffs_IMsb.sb.fsmagic);
+  printf("  nblocks          = %u\n", ffs_IMsb.sb.nblocks);
+  printf("  nbmapblocksinodes= %u\n", ffs_IMsb.sb.nbmapblocksinodes);
+  printf("  ninodeblocks     = %u\n", ffs_IMsb.sb.ninodeblocks);
+  printf("  ninodes          = %u\n", ffs_IMsb.sb.ninodes);
+  printf("  nbmapblocksdata  = %u\n", ffs_IMsb.sb.nbmapblocksdata);
+  printf("  ndatablocks      = %u\n", ffs_IMsb.sb.ndatablocks);
+  printf("  startInArea      = %u\n", ffs_IMsb.sb.startInArea);
+  printf("  startRotdir      = %u\n", ffs_IMsb.sb.startRotdir);
+  printf("  startDtBmap      = %u\n", ffs_IMsb.sb.startDtBmap);
+  printf("  startDtArea      = %u\n", ffs_IMsb.sb.startDtArea);
   printf("  mounted          = %s\n", (ffs_IMsb.sb.mounted)?"yes":"no");
   fflush(stdout);
 }
