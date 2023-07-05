@@ -275,7 +275,6 @@ int readdir_print_table() {
   ercode= dir_rewind();
   if (ercode < 0) return -ENOTDIR;
 
-  /*** TODO: use readdir to print the entries (same format as above) ***/
   int left=DENTRIES_PER_BLOCK*super_ops.getNdatablocks();
   struct dentry file;
   while((cwd->lastEntry)<left){
@@ -283,7 +282,6 @@ int readdir_print_table() {
     if(dePtr==NULL){
       return dir_rewind();
     }
-    //printf("%d\n",dePtr->inode);
     file=*dePtr;
     name2str(str,file.name);
     if(findname(str)>=0)//
