@@ -43,8 +43,8 @@ int bytemap_print_table(unsigned int bmapIDX) {
   switch (bmapIDX) {
 
     case LRG_INODE_BMAP:
-      scan=bmapMD[bmapIDX].BMstart        /*** TODO ***/;
-      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart /*** TODO ***/;
+      scan=bmapMD[bmapIDX].BMstart;
+      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart;
       sprintf(msg, "%s", "large inodes");
       break;
 
@@ -55,8 +55,8 @@ int bytemap_print_table(unsigned int bmapIDX) {
       break;
 
     case DATA_BMAP:
-      scan=bmapMD[bmapIDX].BMstart        /*** TODO ***/;
-      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart /*** TODO ***/;
+      scan=bmapMD[bmapIDX].BMstart;
+      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart;
       sprintf(msg, "%s", "data blocks");
       break;
   }
@@ -84,17 +84,17 @@ int bytemap_print_table(unsigned int bmapIDX) {
 
 static void bytemap_init() {
   
-  bmapMD[LRG_INODE_BMAP].diskBlock=BMi_OFFSET     /*** TODO ***/;
-  bmapMD[LRG_INODE_BMAP].BMstart=0       /*** TODO ***/;
-  bmapMD[LRG_INODE_BMAP].BMend=(super_ops.getNinodeblocks()/2)*LRG_INOS_PER_BLK         /*** TODO ***/;
+  bmapMD[LRG_INODE_BMAP].diskBlock=BMi_OFFSET;
+  bmapMD[LRG_INODE_BMAP].BMstart=0;
+  bmapMD[LRG_INODE_BMAP].BMend=(super_ops.getNinodeblocks()/2)*LRG_INOS_PER_BLK;
 
   bmapMD[SML_INODE_BMAP].diskBlock=BMi_OFFSET    /*** TODO ***/;
-  bmapMD[SML_INODE_BMAP].BMstart=(super_ops.getNinodeblocks()/2*LRG_INOS_PER_BLK)  /*** TODO ***/;
-  bmapMD[SML_INODE_BMAP].BMend=(super_ops.getTotalInodes())         /*** TODO ***/;
+  bmapMD[SML_INODE_BMAP].BMstart=(super_ops.getNinodeblocks()/2*LRG_INOS_PER_BLK);
+  bmapMD[SML_INODE_BMAP].BMend=(super_ops.getTotalInodes());
 
-  bmapMD[DATA_BMAP].diskBlock=super_ops.getStartDtBmap(); /*** TODO ***/
-  bmapMD[DATA_BMAP].BMstart=0    /*** TODO ***/;
-  bmapMD[DATA_BMAP].BMend=super_ops.getNdatablocks()     /*** TODO ***/;
+  bmapMD[DATA_BMAP].diskBlock=super_ops.getStartDtBmap();
+  bmapMD[DATA_BMAP].BMstart=0;
+  bmapMD[DATA_BMAP].BMend=super_ops.getNdatablocks();
 
 }
 
@@ -117,18 +117,18 @@ static int bytemap_set(unsigned int bmapIDX, unsigned int entry, \
   switch (bmapIDX) {
 
     case LRG_INODE_BMAP:
-      min=bmapMD[LRG_INODE_BMAP].BMstart/*** TODO ***/;
-      max=bmapMD[LRG_INODE_BMAP].BMend /*** TODO ***/;
+      min=bmapMD[LRG_INODE_BMAP].BMstart;
+      max=bmapMD[LRG_INODE_BMAP].BMend;
       break;
 
     case SML_INODE_BMAP:
-      min=bmapMD[SML_INODE_BMAP].BMstart /*** TODO ***/;
-      max=bmapMD[SML_INODE_BMAP].BMend /*** TODO ***/;
+      min=bmapMD[SML_INODE_BMAP].BMstart;
+      max=bmapMD[SML_INODE_BMAP].BMend;
       break;
 
     case DATA_BMAP:
-      min= bmapMD[DATA_BMAP].BMstart/*** TODO ***/;
-      max= bmapMD[DATA_BMAP].BMend/*** TODO ***/;
+      min= bmapMD[DATA_BMAP].BMstart;
+      max= bmapMD[DATA_BMAP].BMend;
       break;
   }
 
@@ -136,7 +136,7 @@ static int bytemap_set(unsigned int bmapIDX, unsigned int entry, \
   if (entry < min) return -EFBIG; // Bug elsewhere and unsigned !!!
 
   // read in the bytemap
-  ercode= disk_ops.read(/*** TODO ***/bmapMD[bmapIDX].diskBlock, bmap);
+  ercode= disk_ops.read(bmapMD[bmapIDX].diskBlock, bmap);
   if (ercode < 0) return ercode;
 
 /* ---- AULA1, only handles 1 byte allocated
@@ -144,11 +144,7 @@ static int bytemap_set(unsigned int bmapIDX, unsigned int entry, \
   else bmap[entry]= set;
 ---- We now need to handle howMany bytes contiguously allocated */
 
-
-  /*** TODO: allocate howMany entries ***/
   for(int i=0;i<howMany;i++){
-    /*if(bmapMD[bmapIDX].BMend<=entry+howMany)
-      break;*/
     if(bmap[entry+i]==set) return -EINVAL;
     else bmap[entry+i]=set;
   }
@@ -188,25 +184,25 @@ static int bytemap_getfree(unsigned int bmapIDX, unsigned int howMany) {
   switch (bmapIDX) {
 
     case LRG_INODE_BMAP:
-      scan=bmapMD[bmapIDX].BMstart /*** TODO ***/;
-      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart /*** TODO ***/;
+      scan=bmapMD[bmapIDX].BMstart;
+      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart;
       break;
 
     case SML_INODE_BMAP:
-      scan=bmapMD[bmapIDX].BMstart /*** TODO ***/;
-      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart /*** TODO ***/;
+      scan=bmapMD[bmapIDX].BMstart;
+      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart;
       break;
 
     case DATA_BMAP:
-      scan=bmapMD[bmapIDX].BMstart /*** TODO ***/;
-      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart /*** TODO ***/;
+      scan=bmapMD[bmapIDX].BMstart;
+      entriesLeft=bmapMD[bmapIDX].BMend-bmapMD[bmapIDX].BMstart;
       break;
   }
 
-  /*** TODO ***
+  /***
     Again, find howMany contiguous free entries, and return the
     address of the 1st entry in the group
-   *** TODO ***/
+   ***/
   int numFound=0;
   
   while(entriesLeft){
