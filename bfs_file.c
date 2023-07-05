@@ -14,29 +14,24 @@
 static int file_create_C( char *name, unsigned int nblocks, char type) {
   int ercode;
   // get the disk block entry for this file
-  /*** TODO ***/
   ercode=bmap_ops.getfree(2,nblocks);
   if (ercode < 0) return ercode;
   unsigned int dm2set=ercode;
 
   // get the inode entry for this file
-  /*** TODO ***/
   ercode=bmap_ops.getfree(0,1);
   if (ercode < 0) return ercode;
   unsigned int inode2set=ercode;
 
   // create the dentry
-  /*** TODO ***/
   ercode=dir_ops.create(name,inode2set);
   if (ercode < 0) return ercode;
 
   // mark the disk block entry for this file
-  /*** TODO ***/
   ercode=bmap_ops.set(2,dm2set,nblocks,1);
   if (ercode < 0) return ercode; // This would be a bug!
 
   // mark the inode bmap entry for this file
-  /*** TODO ***/
   ercode=bmap_ops.set(0,inode2set,1,1);
   if (ercode < 0) return ercode; // This would be a bug!
 
@@ -45,7 +40,6 @@ static int file_create_C( char *name, unsigned int nblocks, char type) {
   union sml_lrg ino;
 
   // Read the inode whose number is inode2set
-  /*** TODO ***/
   ercode=inode_ops.read(inode2set,&ino);
   if (ercode < 0) return ercode; // This would be a bug!
 
@@ -56,7 +50,6 @@ static int file_create_C( char *name, unsigned int nblocks, char type) {
   ino.smlino.end= dm2set;
 
   // Save the inode 
-  /*** TODO ***/
   ercode=inode_ops.write(inode2set,&ino);
   if (ercode < 0) return ercode; // This would be a bug!
 
@@ -77,18 +70,15 @@ static int file_create_I(char *name) {
   int ercode;
 
   // get the inode entry for this file
-  /*** TODO ***/
   ercode=bmap_ops.getfree(1,1);
   if (ercode < 0) return ercode;
   unsigned int inode2set=ercode;
 
   // create the dentry
-  /*** TODO ***/
   ercode=dir_ops.create(name,inode2set);
   if (ercode < 0) return ercode;
 
   // mark the inode bmap entry for this file
-  /*** TODO ***/
   ercode=bmap_ops.set(1,inode2set,1,1);
   if (ercode < 0) return ercode; // This would be a bug!
 
@@ -97,7 +87,6 @@ static int file_create_I(char *name) {
   union sml_lrg ino;
 
   // Read the inode whose number is inode2set
-  /*** TODO ***/
   ercode=inode_ops.read(inode2set,&ino);
   if (ercode < 0) return ercode; // This would be a bug!
 
@@ -106,7 +95,6 @@ static int file_create_I(char *name) {
   //ino.lrgino.size= 0;
 
   // Save the inode 
-  /*** TODO ***/
   ercode=inode_ops.write(inode2set,&ino);
   if (ercode < 0) return ercode; // This would be a bug!
 
